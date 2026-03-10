@@ -1,2 +1,2 @@
 # SalesProjectApplication
-Author - Ishan Jhamnani
+Author - ishan jhamnani
