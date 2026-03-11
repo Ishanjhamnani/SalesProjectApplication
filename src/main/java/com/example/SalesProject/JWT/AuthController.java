@@ -34,7 +34,6 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
     }
 
-    // ✅ Under /api/ so JWT filter actually validates the token
     @GetMapping("/api/validate")
     public ResponseEntity<Void> validateToken() {
         return ResponseEntity.ok().build();
