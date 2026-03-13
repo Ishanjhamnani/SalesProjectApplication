@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CustomerList" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="adc6a896-1064-4e79-a35a-f3ea21e75377">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalesProject"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+                id,
+                CONCAT(first_name, ' ', last_name) AS fullName,
+                email,
+                phone_number AS phoneNumber,
+                address
+            FROM customers limit 30
+            ]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	</field>
+	<field name="fullname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="fullname"/>
+		<property name="com.jaspersoft.studio.field.label" value="fullname"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="email"/>
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	</field>
+	<field name="phonenumber" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="phonenumber"/>
+		<property name="com.jaspersoft.studio.field.label" value="phonenumber"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address"/>
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="180" y="10" width="210" height="30" uuid="be7acad1-bfca-4a96-9fd2-d86b3eae3bf9"/>
+				<textElement>
+					<font fontName="Bahnschrift" size="19"/>
+				</textElement>
+				<text><![CDATA[VasyERP Solutions]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="64">
+			<staticText>
+				<reportElement x="207" y="17" width="140" height="30" uuid="06ec52d0-7502-488b-b0c0-ec206fa549f1"/>
+				<textElement>
+					<font fontName="Ink Free" size="16" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Customer Details]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout"/>
+			<staticText>
+				<reportElement x="80" y="0" width="80" height="20" uuid="60ffad53-269b-4ce7-9704-49b6c3c58944">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b245cec7-17f7-4212-89c4-1dd0e3f23b43"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="-1" width="10" height="20" forecolor="#18191A" backcolor="#0890FF" uuid="51afb033-7422-4371-b144-42802b5b99cb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="089f53b5-8203-49ee-a054-003f1113f23a"/>
+				</reportElement>
+				<box leftPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="26" height="19" uuid="ef2cade5-53f1-4cbe-8406-ca2094cd005b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b897d1e-b533-488c-b60e-9a461bd40c1d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="347" y="1" width="100" height="19" uuid="1117780f-7343-4a9f-9a7e-0ac3bbdd2bd4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dfd1ff27-3f4d-4242-88ff-80ef6338c0c7"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Phone Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="100" height="19" uuid="486fe2fd-e1c2-476a-9dfc-dbfef3f7f696">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="398c8703-279a-4cf6-a4c7-5a42b5277d55"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="80" y="0" width="80" height="19" uuid="145f2a6c-a1e6-478f-9dc5-88d429dfb943">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b245cec7-17f7-4212-89c4-1dd0e3f23b43"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{fullname}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="-1" width="34" height="20" uuid="8f7a236b-13af-4769-a6b9-8f6479dc57bc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="089f53b5-8203-49ee-a054-003f1113f23a"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="0" width="140" height="18" uuid="daf10f58-edf4-4465-8763-3f67cd95bf6a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9b897d1e-b533-488c-b60e-9a461bd40c1d"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="458" y="0" width="102" height="18" uuid="2a4d52f7-ab29-40ed-af59-2499213dd096">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="398c8703-279a-4cf6-a4c7-5a42b5277d55"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="0" width="90" height="22" uuid="a3ef7ae7-7f56-43ed-8968-114fce31a64f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dfd1ff27-3f4d-4242-88ff-80ef6338c0c7"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA[$F{phonenumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
