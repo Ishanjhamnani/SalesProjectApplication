@@ -60,6 +60,7 @@
     <subDataset name="Dataset1" uuid="63c4803f-8433-4df7-9ecb-a362c28ff9e6">
         <property name="com.jaspersoft.studio.data.sql.tables" value=""/>
         <property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalesProject"/>
+        <parameter name="orderId" class="java.lang.Long"/>
         <queryString language="SQL">
             <![CDATA[SELECT
     p.name AS product_name,
@@ -68,15 +69,14 @@
     oi.discount,
     (oi.quantity * oi.unit_price) AS total
 FROM order_items oi
-JOIN product p ON p.id = oi.product_id]]>
+JOIN product p ON p.id = oi.product_id
+WHERE oi.order_id = $P{orderId}]]>
         </queryString>
         <field name="product_name" class="java.lang.String">
             <property name="com.jaspersoft.studio.field.name" value="product_name"/>
             <property name="com.jaspersoft.studio.field.label" value="product_name"/>
             <property name="com.jaspersoft.studio.field.tree.path" value="product"/>
         </field>
-
-
         <field name="qty" class="java.lang.Integer">
             <property name="com.jaspersoft.studio.field.name" value="qty"/>
             <property name="com.jaspersoft.studio.field.label" value="qty"/>
@@ -102,8 +102,6 @@ JOIN product p ON p.id = oi.product_id]]>
         <group name="product_name">
             <groupExpression><![CDATA[$F{product_name}]]></groupExpression>
         </group>
-
-
         <group name="qty">
             <groupExpression><![CDATA[$F{qty}]]></groupExpression>
         </group>
@@ -121,7 +119,7 @@ JOIN product p ON p.id = oi.product_id]]>
     <queryString>
         <![CDATA[SELECT
     CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-    c.address AS customer_address, 
+    c.address AS customer_address,
     c.phone_number AS customer_phone,
     o.order_date,
     p.name AS product_name,
@@ -159,8 +157,6 @@ WHERE oi.order_id = $P{orderId}]]>
         <property name="com.jaspersoft.studio.field.label" value="product_name"/>
         <property name="com.jaspersoft.studio.field.tree.path" value="product"/>
     </field>
-
-
     <field name="qty" class="java.lang.Integer">
         <property name="com.jaspersoft.studio.field.name" value="qty"/>
         <property name="com.jaspersoft.studio.field.label" value="qty"/>
@@ -248,12 +244,12 @@ GSTIN: 24AAGCC8118G2ZS]]></text>
                 <reportElement x="510" y="42" width="54" height="18" uuid="f9ebbbdf-80a4-44d2-af2b-f2c71ee4caa1"/>
                 <textFieldExpression><![CDATA[$P{orderId}]]></textFieldExpression>
             </textField>
-            <textField>
-                <reportElement x="480" y="60" width="70" height="14" uuid="13f25ed8-fded-440f-9223-b7e5d28068f0"/>
+            <textField pattern="M/d/yy">
+                <reportElement x="489" y="60" width="70" height="14" uuid="13f25ed8-fded-440f-9223-b7e5d28068f0"/>
                 <textFieldExpression><![CDATA[$F{order_date}]]></textFieldExpression>
             </textField>
             <staticText>
-                <reportElement x="445" y="60" width="30" height="14" uuid="5a6a3654-79c6-4f8d-817b-488c0b6ca6f1"/>
+                <reportElement x="458" y="60" width="30" height="14" uuid="5a6a3654-79c6-4f8d-817b-488c0b6ca6f1"/>
                 <text><![CDATA[Date - ]]></text>
             </staticText>
             <staticText>
@@ -262,13 +258,10 @@ GSTIN: 24AAGCC8118G2ZS]]></text>
             </staticText>
         </band>
     </pageHeader>
-    <pageFooter>
-        <band height="37"/>
-    </pageFooter>
     <summary>
         <band height="130">
             <componentElement>
-                <reportElement x="85" y="10" width="395" height="69" uuid="28df1a6b-08a1-4789-af7a-2aa2352cc5de">
+                <reportElement x="85" y="6" width="395" height="60" uuid="28df1a6b-08a1-4789-af7a-2aa2352cc5de">
                     <property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
                     <property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
                     <property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
@@ -276,6 +269,9 @@ GSTIN: 24AAGCC8118G2ZS]]></text>
                 </reportElement>
                 <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
                     <datasetRun subDataset="Dataset1" uuid="e72f7462-ec7d-43da-b5be-35d6c9cb2a93">
+                        <datasetParameter name="orderId">
+                            <datasetParameterExpression><![CDATA[$P{orderId}]]></datasetParameterExpression>
+                        </datasetParameter>
                         <connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
                         <returnValue fromVariable="TableSum" toVariable="GrandTotal"/>
                     </datasetRun>

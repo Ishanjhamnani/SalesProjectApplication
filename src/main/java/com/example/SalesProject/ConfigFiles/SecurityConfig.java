@@ -63,6 +63,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 
                         .requestMatchers("/pages/**").permitAll()
+                        .requestMatchers("/orders/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/WEB-INF/**").permitAll()
