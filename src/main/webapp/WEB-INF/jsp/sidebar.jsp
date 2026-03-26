@@ -318,6 +318,12 @@
             <span class="nav-arrow">›</span>
         </a>
 
+        <a href="/pages/dashboard" class="nav-link" id="nav-dashboard">
+                    <div class="nav-icon">📊</div>
+                    <span class="nav-link-text">Dashboard</span>
+                    <span class="nav-arrow">›</span>
+                </a>
+
         <a href="/pages/products" class="nav-link" id="nav-products">
             <div class="nav-icon">📦</div>
             <span class="nav-link-text">Products</span>

@@ -1,4 +1,4 @@
-package com.example.SalesProject.Controller; // Change this to your actual package name!
+package com.example.SalesProject.Controller;
 
 import net.sf.jasperreports.engine.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import java.util.Map;
 @RestController
 public class ReportController {
 
-    // This automatically grabs the database connection you set up in application.properties
     @Autowired
     private DataSource dataSource;
 

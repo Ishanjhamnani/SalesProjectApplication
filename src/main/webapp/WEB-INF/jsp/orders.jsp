@@ -197,6 +197,7 @@ div.dataTables_wrapper div.dataTables_paginate .paginate_button.disabled,div.dat
         <button id="closeModal" title="Close">✕</button>
         <h3>🛒 Place an Order</h3>
         <div class="modal-error" id="modalError"></div>
+
         <label>Customer</label>
         <div class="ac-wrap" id="customerWrap">
             <input type="text" id="customerSearch" placeholder="Type customer name…" autocomplete="off">
@@ -207,6 +208,7 @@ div.dataTables_wrapper div.dataTables_paginate .paginate_button.disabled,div.dat
             <span class="ac-tag-remove" id="customerTagRemove">✕</span>
         </div>
         <input type="hidden" id="selectedCustomerId">
+
         <div class="order-items-header">
             <span>Products</span>
             <button id="addItemBtn" type="button">+ Add Product</button>
@@ -245,11 +247,8 @@ function dismissToast(toast) {
     setTimeout(() => toast.remove(), 350);
 }
 
-// Function to handle secure PDF downloads
 window.downloadInvoice = function(orderId) {
     const token = sessionStorage.getItem('token');
-
-    // Optional: Show a loading toast
     showToast('Generating invoice...', 'info');
 
     fetch('/pages/reports/invoice/' + orderId, {
@@ -260,18 +259,15 @@ window.downloadInvoice = function(orderId) {
     })
     .then(response => {
         if (!response.ok) throw new Error('Failed to generate invoice');
-        return response.blob(); // Convert the response to a file blob
+        return response.blob();
     })
     .then(blob => {
-        // Create a hidden link to trigger the download
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'Invoice_' + orderId + '.pdf';
         document.body.appendChild(a);
         a.click();
-
-        // Clean up
         a.remove();
         window.URL.revokeObjectURL(url);
         showToast('Invoice downloaded successfully!', 'success');
@@ -324,14 +320,11 @@ $(document).ready(function(){
         dom: 'rtip',
         autoWidth: false,
         columnDefs: [
-                     { width: '40px', targets: 0 }, // Strictly small for Sr No
-                     { width: '18%',  targets: 1 }, // Date
-                     { width: '12%',  targets: 2 }, // Status
-                     { width: '15%',  targets: 3 }, // Total Amount
-                     { width: '12%',  targets: 5 }  // Actions
-
-                     // Notice how target 4 (Customer) is missing!
-                     // It will now automatically stretch to fill the rest of the screen.
+                     { width: '40px', targets: 0 },
+                     { width: '18%',  targets: 1 },
+                     { width: '12%',  targets: 2 },
+                     { width: '15%',  targets: 3 },
+                     { width: '12%',  targets: 5 }
                  ],
         drawCallback: function(settings) {
             const total = settings.fnRecordsTotal();
@@ -344,7 +337,7 @@ $(document).ready(function(){
         $(cfg.inputSel).on('input', function(){
             const q=$(this).val().trim().toLowerCase(); highlighted=-1;
             if(q.length<1){ $(cfg.listSel).hide().empty(); return; }
-            const matches=cfg.data.filter(function(item){ return cfg.labelFn(item).toLowerCase().includes(q); }).slice(0,8);
+            const matches=cfg.data.filter(function(item){ return cfg.labelFn(item).toLowerCase().includes(q); }).slice(0,15); // Show up to 15 while debugging
             if(!matches.length){ $(cfg.listSel).html('<div class="ac-empty">No results found</div>').show(); return; }
             const html=matches.map(function(item,idx){ return '<div class="ac-item" data-idx="'+idx+'">'+cfg.labelFn(item)+'</div>'; }).join('');
             $(cfg.listSel).html(html).show();
@@ -373,11 +366,38 @@ $(document).ready(function(){
     function initCustomerAC(){
         makeAutocomplete({
             inputSel:'#customerSearch', listSel:'#customerList',
-            data:allCustomers, labelFn:function(c){ return c.firstName+' '+c.lastName; },
+            data:allCustomers,
+            labelFn: function(c) {
+                // If the backend sent a flat array of strings
+                if (typeof c === 'string') return c;
+
+                // Checking all standard name structures
+                if (c.firstName || c.lastName) return ((c.firstName || '') + ' ' + (c.lastName || '')).trim();
+                if (c.name) return c.name;
+                if (c.customerName) return c.customerName;
+                if (c.fullName) return c.fullName;
+
+                // DIAGNOSTIC FALLBACK: If we still don't find a name, print the literal object to the screen!
+                return "DEBUG DATA: " + JSON.stringify(c).substring(0, 70);
+            },
             onSelect:function(c){
-                $('#selectedCustomerId').val(c.id);
+                // Try to find the ID, fallback to value, or nothing
+                const id = typeof c === 'object' ? (c.id || c.customerId || c.value || '') : c;
+                $('#selectedCustomerId').val(id);
+
                 $('#customerSearch').hide();
-                $('#customerTagLabel').text(c.firstName+' '+c.lastName);
+
+                // Same diagnostic logic for the selected tag
+                let label = '';
+                if (typeof c === 'string') {
+                    label = c;
+                } else if (c.firstName || c.lastName) {
+                    label = ((c.firstName || '') + ' ' + (c.lastName || '')).trim();
+                } else {
+                    label = c.name || c.customerName || c.fullName || ("DEBUG: " + JSON.stringify(c).substring(0, 30));
+                }
+
+                $('#customerTagLabel').text(label);
                 $('#customerTag').css('display','inline-flex');
                 $('#modalError').hide();
             }
@@ -438,8 +458,23 @@ $(document).ready(function(){
         resetModal();
         const token=sessionStorage.getItem('token');
         const headers=token?{'Authorization':'Bearer '+token}:{};
-        const custDone=$.ajax({ url:'/api/show-customers', type:'POST', data:{start:0,length:1000,draw:1,search:''}, headers:headers, success:function(res){ allCustomers=res.data||[]; } });
-        const prodDone=$.ajax({ url:'/api/show-products',  type:'GET',  data:{start:0,length:1000,draw:1}, headers:headers, success:function(res){ allProducts=res.data||res||[]; } });
+
+        const custDone=$.ajax({
+            url:'/api/show-customers',
+            type:'POST',
+            data:{start:0,length:1000,draw:1,search:''},
+            headers:headers,
+            success:function(res){ allCustomers = res.data || res || []; }
+        });
+
+        const prodDone=$.ajax({
+            url:'/api/show-products',
+            type:'GET',
+            data:{start:0,length:1000,draw:1},
+            headers:headers,
+            success:function(res){ allProducts = res.data || res || []; }
+        });
+
         $.when(custDone,prodDone).always(function(){ initCustomerAC(); buildProductRow(); $('#orderModal').addClass('active'); });
     });
 
@@ -450,6 +485,7 @@ $(document).ready(function(){
     function resetModal(){
         $('#customerSearch').val('').show(); $('#customerTag').hide();
         $('#selectedCustomerId').val(''); $('#customerList').hide().empty();
+
         $('#orderItemsContainer').empty(); $('#orderSummary').hide();
         $('#modalError').hide().text('');
         $('#submitOrder').prop('disabled',false).text('Place Order');
@@ -458,8 +494,10 @@ $(document).ready(function(){
 
     $('#submitOrder').on('click', function(){
         $('#modalError').hide();
+
         const customerId=parseInt($('#selectedCustomerId').val());
-        if(!customerId){ showError('Please select a customer.'); return; }
+        if(!customerId){ showError('Please select a valid customer.'); return; }
+
         const items=[]; let valid=true; const seen={};
         $('#orderItemsContainer .order-item-row').each(function(){
             const productId=parseInt($(this).find('.selected-product-id').val());
@@ -471,6 +509,7 @@ $(document).ready(function(){
             items.push({productId:productId, quantity:quantity});
         });
         if(!valid) return;
+
         $('#submitOrder').prop('disabled',true).text('Placing…');
         const token=sessionStorage.getItem('token');
         $.ajax({
