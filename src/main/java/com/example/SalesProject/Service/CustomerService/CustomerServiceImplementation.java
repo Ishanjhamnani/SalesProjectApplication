@@ -24,7 +24,7 @@ public class CustomerServiceImplementation implements CustomerService {
     }
 
     @Override
-    @Cacheable(value = "customersPage", key = "#page + '-' + #length + '-' + #draw")
+    @Cacheable(value = "customersPage", key = "#page + '-' + #length + '-' + #draw + '-' + #search")
     public Map<String, Object> getCustomersPage(int page, int length, int draw,String search) {
 
         PageRequest pageable = PageRequest.of(page, length);
@@ -77,6 +77,7 @@ public class CustomerServiceImplementation implements CustomerService {
         updatedCustomer.setLastName(customer.getLastName());
         updatedCustomer.setEmail(customer.getEmail());
         updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
+        updatedCustomer.setAddress(customer.getAddress());
         customerRepository.save(updatedCustomer);
     }
 

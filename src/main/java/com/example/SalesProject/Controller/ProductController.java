@@ -23,7 +23,7 @@ public class ProductController {
     public Map<String, Object >getProductsForDataTable(
             @RequestParam(defaultValue = "1") int draw,
             @RequestParam(defaultValue = "0") int start,
-            @RequestParam(defaultValue = "100") int length,
+            @RequestParam(defaultValue = "10") int length,
             @RequestParam(defaultValue = "")   String search
 
     ) {
